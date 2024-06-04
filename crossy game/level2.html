@@ -1,0 +1,119 @@
+<html>
+<head>
+<title> Custom Game </title>
+<script src="https://simplycodingcourses.com/files/simply.js"></script>
+<script>
+function start(){
+sjs.open("target",500,400);
+var background = new sjs.Image("Images/Background.png");
+background.setSize(600, 400);
+
+var player = new sjs.Image("Images/littleguy.gif");
+player.type = "player"
+player.setSize(50,50);
+player.centerH();
+player.bottom();
+player.friction =.5;
+player.accel = .2;
+sjs.keyDown(RIGHT_KEY, function(){
+	player.pushRight();
+});
+sjs.keyDown(LEFT_KEY,function(){
+	player.pushLeft();
+});
+sjs.keyDown(DOWN_KEY, function(){
+	player.pushDown();
+});
+sjs.keyDown(UP_KEY, function(){
+	player.pushUp();
+});
+
+setInterval(function(){
+	var speed = 7.5;
+	
+	if(Math.random()*10>7){
+var cockroachleft = new sjs.Image("Images/cockroachleft.gif");
+cockroachleft.type = "enemy";
+cockroachleft.setSize(50,25);
+cockroachleft.noBounds = true;
+cockroachleft.friction = 0;
+cockroachleft.pushLeft(speed);
+cockroachleft.moveTo(sjs.getWidth(),70);
+} else if (Math.random()*10>5){
+	var bluebug = new sjs.Image("Images/bluebug.gif");
+	bluebug.type = "enemy";
+	bluebug.setSize(50,50);
+	bluebug.noBounds = true;
+	bluebug.friction=0;
+	bluebug.pushRight(speed);
+	bluebug.moveTo(-bluebug.getWidth(),175);
+} else if (Math.random()*10>2.5){
+	var dragonfly = new sjs.Image("Images/dragonfly.gif");
+	dragonfly.type = "enemy";
+	dragonfly.setSize(50,25);
+	dragonfly.noBounds = true;
+	dragonfly.friction=0;
+	dragonfly.pushRight(speed);
+	dragonfly.moveTo(-dragonfly.getWidth(),310);
+} else {
+	var ladybug = new sjs.Image("Images/ladybug.gif");
+	ladybug.type = "enemy";
+	ladybug.setSize(50,25);
+	ladybug.noBounds = true;
+	ladybug.friction=0;
+	ladybug.pushLeft(speed);
+	ladybug.moveTo(sjs.getWidth(),250);
+}
+}, 900);
+sjs.left_screen.offset(-500);
+sjs.right_screen.offset(500);
+
+sjs.onHit("enemy", ["right_screen","left_screen"], function(x,y){
+	x.destroy();
+});
+var bush1 = new sjs.Image("Images/bush.png");
+bush1.type = "enemy";
+bush1.setSize(78,39);
+bush1.moveTo(100,50);
+
+var bush2 = new sjs.Image("Images/bush.png");
+bush2.type = "enemy";
+bush2.setSize(78,39);
+bush2.moveTo(400,100);
+
+var bush3 = new sjs.Image("Images/bush.png");
+bush3.type = "enemy";
+bush3.setSize(78,39);
+bush3.moveTo(125,300);
+
+var safe = new sjs.Image("Images/safe.png");
+safe.type ="safety";
+safe.setSize(200,20);
+safe.centerH();
+
+var live = 5;
+var live_txt=new sjs.Text("Lives: 5", 21, "blue");
+
+//onhit
+sjs.onHit("player","enemy",function(x,y){
+	player.bottom();
+	live=live-1;
+	live_txt.setText("Lives: "+live);
+	if(live<1){
+		window.location="lose.html";
+	}
+});
+
+sjs.onHit("player","safety", function(x,y){
+	window.location = "level3.html";
+});
+
+} //end start
+</script>
+</head>
+<body onload="start()">
+<h1> Custom Game </h1>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>

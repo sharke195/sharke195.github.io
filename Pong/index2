@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Pong </title>
+<script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+<script>
+function start(){
+sjs.open();
+var menu = new sjs.Text("Menu",20,"pink");
+menu.centerH().top();
+var play = new sjs.Text("Use the arrow keys to play the game",30,"light pink");
+play.centerH().offset(0,25);
+var button = new sjs.Button("PLAY", function(){
+  window.location = "pong1.html";
+});
+button.center();
+var me = new sjs.Text("Made by Sammy", 20, "pink");
+me.bottom().centerH();
+
+} //end start
+</script>
+</head>
+<body onload="start()">
+<h1> Pong Game </h1>
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<html>
+<head>
+<title> Custom Game </title>
+<script src="https://simplycodingcourses.com/files/simply.js"></script>
+<script>
+function start(){
+sjs.open("target",500,400);
+var sad = new sjs.Text("You lost!",30,"black");
+var again = new sjs.Button("Play again?",function(){
+	window.location = "start.html";
+});
+sad.center();
+again.moveTo(200,250);
+} //end start
+</script>
+</head>
+<body onload="start()">
+<h1> Custom Game </h1>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>

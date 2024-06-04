@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Menu </title>
+<script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+<script>
+function start(){
+sjs.open();
+var menu = new sjs.Text("Main Menu", 30, "pink");
+menu.centerH();
+var instructions = new sjs.Text("Use the arrow keys to move the cat around - Try to eat the space ships that are smaller than you - The big ones kill you", 20, "white");
+instructions.centerH().offset(0,35);
+var button = new sjs.Button("start" , function(){
+window.location = "fish.html";
+});
+button.center();
+var me_text = new sjs.Text("created By Sammy",15,"yellow");
+me_text.bottom().centerH();
+} //end start
+</script>
+</head>
+<body onload="start()">
+<h1> Laser Cat Menu </h1>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<html>
+<head>
+<title> Custom Game </title>
+<script src="https://simplycodingcourses.com/files/simply.js"></script>
+<script>
+function start(){
+sjs.open("target",500,400);
+var background = new sjs.Image("Images/Background.png");
+background.setSize(600, 400);
+//background end
+
+//charcters
+var player = new sjs.Image("Images/littleguy.gif");
+player.type = "player"
+player.setSize(50,50);
+player.centerH();
+player.bottom();
+player.friction =.5;
+player.accel = .2;
+
+
+//movement
+sjs.keyDown(RIGHT_KEY, function(){
+	player.pushRight();
+});
+sjs.keyDown(LEFT_KEY,function(){
+	player.pushLeft();
+});
+sjs.keyDown(DOWN_KEY, function(){
+	player.pushDown();
+});
+sjs.keyDown(UP_KEY, function(){
+	player.pushUp();
+});
+//speed and enemys
+
+setInterval(function(){
+	var speed = 9;
+	
+	if(Math.random()*100>85){
+var cockroach = new sjs.Image("Images/cockroach.gif");
+cockroach.type = "enemy";
+cockroach.setSize(50,25);
+cockroach.noBounds = true;
+cockroach.friction = 0;
+cockroach.pushRight(speed);
+cockroach.moveTo(-cockroach.getWidth(),70);
+} else if (Math.random()*100>65){
+	var bluebug = new sjs.Image("Images/bluebug.gif");
+	bluebug.type = "enemy";
+	bluebug.setSize(50,50);
+	bluebug.noBounds = true;
+	bluebug.friction=0;
+	bluebug.pushRight(speed);
+	bluebug.moveTo(-bluebug.getWidth(),175);
+} else if (Math.random()*100>45){
+	var dragonfly = new sjs.Image("Images/dragonfly.gif");
+	dragonfly.type = "enemy";
+	dragonfly.setSize(50,25);
+	dragonfly.noBounds = true;
+	dragonfly.friction=0;
+	dragonfly.pushRight(speed);
+	dragonfly.moveTo(-dragonfly.getWidth(),310);
+} else if (Math.random()*100>25){
+	var ladybug = new sjs.Image("Images/ladybug.gif");
+	ladybug.type = "enemy";
+	ladybug.setSize(50,25);
+	ladybug.noBounds = true;
+	ladybug.friction=0;
+	ladybug.pushLeft(speed);
+	ladybug.moveTo(sjs.getWidth(),250);
+} else if (Math.random()*100>15) {
+	var cockroach2 = new sjs.Image("Images/cockroachleft.gif");
+cockroach2.type = "enemy";
+cockroach2.setSize(50,25);
+cockroach2.noBounds = true;
+cockroach2.friction = 0;
+cockroach2.pushLeft(speed);
+cockroach2.moveTo(sjs.getWidth(),125);
+} else {
+	var bluebug2 = new sjs.Image("Images/bluebugleft.gif");
+	bluebug2.type = "enemy";
+	bluebug2.setSize(50,50);
+	bluebug2.noBounds = true;
+	bluebug2.friction=0;
+	bluebug2.pushLeft(speed);
+	bluebug2.moveTo(sjs.getWidth(),200);
+}
+}, 700);
+
+setInterval(function(){
+	var speed2 = 9;
+
+	if (Math.random()*10>5){
+		var bluebug3 = new sjs.Image("Images/bluebugleft.gif");
+	bluebug3.type = "enemy";
+	bluebug3.setSize(50,50);
+	bluebug3.noBounds = true;
+	bluebug3.friction=0;
+	bluebug3.pushLeft(speed2);
+	bluebug3.moveTo(sjs.getWidth(),300);
+	} else {
+		var dragonfly2 = new sjs.Image("Images/dragonfly.gif");
+	dragonfly2.type = "enemy";
+	dragonfly2.setSize(50,25);
+	dragonfly2.noBounds = true;
+	dragonfly2.friction=0;
+	dragonfly2.pushRight(speed2);
+	dragonfly2.moveTo(-dragonfly2.getWidth(),100);
+	}
+}, 2000);
+sjs.left_screen.offset(-500);
+sjs.right_screen.offset(500);
+
+sjs.onHit("enemy", ["right_screen","left_screen"], function(x,y){
+	x.destroy();
+});
+
+var bush1 = new sjs.Image("Images/bush.png");
+bush1.type = "enemy";
+bush1.setSize(78,39);
+bush1.moveTo(100,125);
+
+var bush2 = new sjs.Image("Images/bush.png");
+bush2.type = "enemy";
+bush2.setSize(78,39);
+bush2.moveTo(250,250);
+
+var bush3 = new sjs.Image("Images/bush.png");
+bush3.type = "enemy";
+bush3.setSize(78,39);
+bush3.moveTo(50,300);
+
+var bush4 = new sjs.Image("Images/bush.png");
+bush4.type = "enemy";
+bush4.setSize(78,39);
+bush4.moveTo(400,100);
+
+var bush5 = new sjs.Image("Images/bush.png");
+bush5.type = "enemy";
+bush5.setSize(78,39);
+bush5.moveTo(200,50);
+
+var safe = new sjs.Image("Images/safe.png");
+safe.type ="safety";
+safe.setSize(200,20);
+safe.centerH();
+
+var live = 10;
+var live_txt=new sjs.Text("Lives: 10", 21, "blue");
+
+//onhit
+sjs.onHit("player","enemy",function(x,y){
+	player.bottom();
+	live=live-1;
+	live_txt.setText("Lives: "+live);
+	if(live<1){
+		window.location="lose.html";
+	}
+});
+sjs.onHit("player","safety",function(x,y){
+	window.location = "gameover.html";
+});
+} //end start
+</script>
+</head>
+<body onload="start()">
+<h1> Custom Game </h1>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>

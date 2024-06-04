@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Laser cat! </title>
+<script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+<script>
+function start(){
+sjs.open("target", 800, 500);
+//background music
+var playM = new Audio('Music/infinite_strings.mp3');
+var toggle = true;
+var musicOn = false;
+sjs.keyDown(SPACE_KEY, function(){
+if (toggle == true){
+	if(musicOn == false){
+playM.play();
+musicOn = true;
+	}else{
+playM.pause();
+musicOn = false
+	}
+	toggle = false;
+	setTimeout(function(){
+toggle = true
+	},1000);
+}
+});
+var background = new sjs.Image("Images/space4.png");
+background.setSize(sjs.getWidth(), sjs.getHeight());
+
+var space = new sjs.Text("Press space bar to toggle music",60,"pink");
+space.center();
+setTimeout(function(){
+space.destroy();
+},2000);
+
+//player
+var player = new sjs.Image("Images/cat_left.png");
+player.type = "player";
+player.setSize(50,50);
+player.accel = .6;
+player.friction=.5;
+sjs.keyDown(RIGHT_KEY,function(){
+	player.setImage("Images/cat_right.png");
+	player.pushRight();
+});
+sjs.keyDown(LEFT_KEY,function(){
+	player.setImage("Images/cat_left.png");
+	player.pushLeft();
+});
+sjs.keyDown(UP_KEY,function(){
+	player.pushUp();
+});
+sjs.keyDown(DOWN_KEY, function(){
+	player.pushDown();
+});
+//power up
+setInterval(function(){
+	var x = Math.floor(Math.random() * 700);
+	var y = Math.floor(Math.random() * 400);
+	var powerUp = new sjs.Image("Images/crumbs.png");
+	powerUp.type = "powerUp";
+	powerUp.setGravity();
+	powerUp.setSize(20,30);
+	powerUp.nobounds= true;
+	powerUp.moveTo(x,y);
+	powerUp.friction= 0.2;
+},5000);
+
+sjs.onHit("powerUp","bottom_screen",function(x,y){
+	x.destroy();
+});
+sjs.onHit("player","powerUp",function(x,y){
+	x.grow(60,30);
+	setTimeout(function(){
+		x.grow(-60,-30);
+	}, 4000);
+	y.destroy();
+});
+//Enemies
+setInterval(function(){
+	var speed = Math.round(1+ Math.random()*10);
+if(Math.random()>0.5){
+	var enemy = new sjs.Image("Images/flash_right.png");
+	enemy.type = "enemy";
+	enemy.setSize(50,30);
+	enemy.noBounds= true;
+	enemy.friction=0;
+	enemy.pushRight(speed);
+	enemy.scaleSize(.5 + Math.random()*2);
+	enemy.moveTo(-enemy.getWidth(), Math.random()*(enemy.getClamp().y));
+} else {
+	var enemy = new sjs.Image("Images/flash_left.png");
+	enemy.type = "enemy";
+	enemy.setSize(50,30);
+	enemy.noBounds = true;
+	enemy.friction = 0;
+	enemy.pushLeft(speed);
+	enemy.scaleSize(.2 + Math.random() * 3);
+	enemy.moveTo(sjs.getWidth(), Math.random()*(enemy.getClamp().y));
+
+}
+}, 1000);
+sjs.left_screen.offset(-500);
+sjs.right_screen.offset(500);
+
+sjs.onHit("enemy", ["right_screen","left_screen"], function(x,y){
+x.destroy();
+});
+//score
+var score = 0
+var score_txt= new sjs. Text("Score: 0", 20, "pink")
+sjs.onHit("player","enemy", function(x,y){
+	if(x.getWidth() > y.getWidth() && x.getHeight() > y.getHeight()){
+		score = score + 1;
+		score_txt.setText("Score: " + score);
+		localStorage.setItem("score",score);
+		x.grow(10,5);
+		if(score >= 20){
+			window.location = "win.html";
+		}
+	} else {
+		x.destroy();
+		window.location = "gameover.html";
+	}
+	y.destroy();
+});
+} //end start
+</script>
+</head>
+<body onload="start()">
+<h1> Laser cat! </h1>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>
